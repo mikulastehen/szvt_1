@@ -12,8 +12,11 @@ class FileProcessor : ProcessorBase
     private readonly PersonReaders.IPersonReader personReader;
     private readonly IProcessProgress processProgress;
 
-    public FileProcessor(string path, PersonReaders.IPersonReader personReader,
-        IProcessProgress processProgress)
+    public FileProcessor(string path,
+        PersonReaders.IPersonReader personReader,
+        IProcessProgress processProgress,
+        Writers.IResultWriter writer)
+        : base(writer)
     {
         this.path = path;
         this.personReader = personReader;
@@ -37,18 +40,9 @@ class FileProcessor : ProcessorBase
         return people;
     }
     
-    
     protected override List<Person> Transform(List<Person> people)
     {
         return people.OrderBy(p => p.State).ToList();
     }
-    // Az implementációt a CsvProcessor-ból mozgassuk ide
-    protected override void Write(List<Person> people)
-    {
-        using (StreamWriter writer = new StreamWriter(@"emberek.txt"))
-        {
-            foreach (Person p in people)
-                writer.WriteLine($"{p.FirstName} {p.LastName}, {p.State}");
-        }
-    }
+    
 }

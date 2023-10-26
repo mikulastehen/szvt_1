@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Gyak_Kiterjeszthetoseg.Progress;
+using Gyak_Kiterjeszthetoseg.Writers;
+using TextWriter = System.IO.TextWriter;
 
 namespace Gyak_Kiterjeszthetoseg
 {
@@ -15,9 +17,11 @@ namespace Gyak_Kiterjeszthetoseg
             //p.Run();
             //MultilineTxtProcessor p = new MultilineTxtProcessor();
             //MultilineTxtProcessorWithPercentageProgress p = new MultilineTxtProcessorWithPercentageProgress();
-            var p = new FileProcessor("us-500-text.txt",
+            /*var p = new FileProcessor("us-500-text.txt",
                 new PersonReaders.MultilineTxtPersonReader(),
                 new PercentageProgress());
+            */
+            var p = new FileProcessor("us-500-text.txt", new PersonReaders.MultilineTxtPersonReader(), new PercentageProgress(), new Writers.TextWriter());
             p.Run();
         }
     }
