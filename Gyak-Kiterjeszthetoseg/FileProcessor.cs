@@ -2,15 +2,22 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Gyak_Kiterjeszthetoseg.Progress;
 
 namespace Gyak_Kiterjeszthetoseg;
 
-abstract class FileProcessorBase : ProcessorBase
+class FileProcessor : ProcessorBase
 {
     private string path;
-    public FileProcessorBase(string path)
+    private readonly PersonReaders.IPersonReader personReader;
+    private readonly IProcessProgress processProgress;
+
+    public FileProcessor(string path, PersonReaders.IPersonReader personReader,
+        IProcessProgress processProgress)
     {
         this.path = path;
+        this.personReader = personReader;
+        this.processProgress = processProgress;
     }
     protected override List<Person> Read()
     {
@@ -23,20 +30,14 @@ abstract class FileProcessorBase : ProcessorBase
             while (!reader.EndOfStream)
             {
                 ++personCount;
-                people.Add(readPerson(reader));
-                printProgress(personCount);
+                people.Add(personReader.Read(reader));
+                processProgress.PrintProgress(personCount);
             }
         }
         return people;
     }
-
-    protected virtual void printProgress(int personCount)
-    {
-        Console.WriteLine($"{personCount}. ember beolvasva");
-    }
-
-    protected abstract Person readPerson(StreamReader reader);
-    // Az implementációt a CsvProcessor-ból mozgassuk ide
+    
+    
     protected override List<Person> Transform(List<Person> people)
     {
         return people.OrderBy(p => p.State).ToList();

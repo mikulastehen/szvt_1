@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 
-namespace Gyak_Kiterjeszthetoseg;
+namespace Gyak_Kiterjeszthetoseg.PersonReaders;
 
-class CsvProcessor : FileProcessorBase
+class CsvPersonReader : IPersonReader
 {
-    public CsvProcessor()
-        : base("us-500.csv") // A fajl nevet nem tudhatja az ososztaly, azt innen adjuk
-    {
-    }
-    protected override Person readPerson(StreamReader reader)
+    public Person Read(StreamReader reader)
     {
         var line = reader.ReadLine();
         System.Text.RegularExpressions.MatchCollection columns
