@@ -21,7 +21,11 @@ namespace Gyak_Kiterjeszthetoseg
                 new PersonReaders.MultilineTxtPersonReader(),
                 new PercentageProgress());
             */
-            var p = new FileProcessor("us-500-text.txt", new PersonReaders.MultilineTxtPersonReader(), new PercentageProgress(), new Writers.TextWriter());
+            /*var p = new FileProcessor("us-500-text.txt", new PersonReaders.MultilineTxtPersonReader(),
+                new PercentageProgress(), new Writers.TextWriter());
+            */
+            var p = new FileProcessor("us-500-text.txt", new PersonReaders.MultilineTxtPersonReader(),
+                new PercentageProgress(), new Writers.TextWriter(), new PeopleProcessors.SortProcessor(x => x.State));
             p.Run();
         }
     }

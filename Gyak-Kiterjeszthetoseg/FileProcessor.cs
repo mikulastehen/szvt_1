@@ -15,8 +15,8 @@ class FileProcessor : ProcessorBase
     public FileProcessor(string path,
         PersonReaders.IPersonReader personReader,
         IProcessProgress processProgress,
-        Writers.IResultWriter writer)
-        : base(writer)
+        Writers.IResultWriter writer, PeopleProcessors.IPeopleProcessor processor)
+        : base(writer, processor)
     {
         this.path = path;
         this.personReader = personReader;
@@ -38,11 +38,6 @@ class FileProcessor : ProcessorBase
             }
         }
         return people;
-    }
-    
-    protected override List<Person> Transform(List<Person> people)
-    {
-        return people.OrderBy(p => p.State).ToList();
     }
     
 }
